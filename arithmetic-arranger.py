@@ -1,39 +1,84 @@
-def arithmetic_aranger(self, expressions, displayResults):
-    resultString=map(lambda x: True, expressions)
+import re
+
+def arithmeticArranger(self, expressions, displayResults):
+    resultString=map(lambda x: processExpression(x), expressions)
+
+    def assembleVisualResult():
+        linesArray=["","","",""]
+    for i in range(4):
+         linesArray[i] = reduce(lambda a, b: str(a) + "    " + str(b), expressions[i]) # fix this!
+
+
+
     return resultString
 
-def process_expression(self, expressionString, calculateResult=False):
+def processExpression(self, expressionString, calculateResult=False):
+    visualResult=None
+
     operand_1=None
     operand_2=None
     operator=None
 
     numericalResult=None
-    
-    result=None
 
     try:
-        result=validate_expression(expressionString)
-    except Exception:
-        raise Exception
+        operand_1, operand_2, operator = interpretExpression(expressionString)
+    except ValueError:
+        raise ValueError
     
-    operand_1, operand_2, operator = interpret_expression
     if(calculateResult):
-        numericalResult=calculate_expression(operand_1, operand_2, operator)
-    result=format_final_expression(operand_1, operand_2, operator)
+        numericalResult=calculateExpression(operand_1, operand_2, operator)
+    result=formatFinalExpression(operand_1, operand_2, operator, numericalResult)
 
-    def validate_expression(self, expressionString):
-        return True
+    def interpretExpression(self, expressionString):
+        pattern = r'^(\d{1,4}) ([+-]) (\d{1,4}$)'
+        match = re.search(pattern, expressionString)
 
-    def interpret_expression(self, expressionString):
-        return True
+        if not match:
+           raise ValueError()
+        
+        operand_1 = match.group(1)
+        operand_2 = match.group(3)
+        operator = match.group(2)
+
+        return [operand_1, operand_2, operator]
     
-    def format_final_expression(self, operand_1, operand_2, operator, numericalResult=None):
-         return ""
-    
-    return result
+    def formatFinalExpression(self, operand_1, operand_2, operator, numericalResult=None):
+        result=[str(operand_1),str(operand_2),""]
+        width = max(len(result[0]), len(result[1]))+2
+        
+        result[0]=result[0].rjust(width, ' ')
+        result[1]=result[1].rjust(width-1, ' ')
+        result[1]=result[1].rjust(width-1, operator)
+        result[2]=result[2].rjust(width, '-')
 
-def calculate_expression(self, operand_1, operand_2, operator):
-        return True
+        if(numericalResult is not None):
+             result.append(str(numericalResult))
+             result[3]=(operator+numericalResult).rjust(width)
+        
+        return result
+        
+
+    return visualResult
+
+
+def calculateExpression(self, operand_1, operand_2, operator):
+        result=None
+        
+        try:
+            ints=[int(operand_1), int(operand_2)]
+        except ValueError:
+             raise ValueError
+
+        if(operator=="+"):
+             result=operand_1+operand_2
+        elif(operator=="-"):
+             result==operand_1-operand_2
+        else:
+             raise Exception()
+        return result
+             
+             
 
 
 
