@@ -1,18 +1,6 @@
 import re
 from functools import reduce
 
-def _interpretExpression(expressionString):
-        pattern = r'^(\d{1,4}) ([+-]) (\d{1,4}$)'
-        match = re.search(pattern, expressionString)
-
-        if not match:
-           raise ValueError()
-        
-        operand_1 = match.group(1)
-        operand_2 = match.group(3)
-        operator = match.group(2)
-
-        return [int(operand_1), int(operand_2), operator]
 
 def arithmeticArranger(expressions, calculateResults=False):
     if(len(expressions)>5):
@@ -32,6 +20,20 @@ def arithmeticArranger(expressions, calculateResults=False):
     return resultStr
 
 def processExpression(expressionString, calculateResult=False):
+    def _interpretExpression(expressionString):
+        pattern = r'^(\d{1,4}) ([+-]) (\d{1,4}$)'
+        match = re.search(pattern, expressionString)
+
+        if not match:
+           raise ValueError()
+        
+        operand_1 = match.group(1)
+        operand_2 = match.group(3)
+        operator = match.group(2)
+
+        return [int(operand_1), int(operand_2), operator]
+
+
     def _formatFinalExpression(operand_1, operand_2, operator, numericalResult=None):
         result=[str(operand_1),str(operand_2),""]
         width = max(len(result[0]), len(result[1]))+2
