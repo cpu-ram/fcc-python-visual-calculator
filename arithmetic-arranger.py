@@ -104,10 +104,4 @@ def arithmeticArranger(expressions, calculateResults=False):
     return resultStr
 
 
-resultStr=arithmeticArranger(["32 + 69898", "3801 - 2", "45 + 43", "123 + 49"], False)
-print(resultStr)
-print("")
-
-
-
 
